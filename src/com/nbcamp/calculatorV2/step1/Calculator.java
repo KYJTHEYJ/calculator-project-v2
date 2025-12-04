@@ -23,15 +23,15 @@ public class Calculator {
         // 숫자 입력 받기 (0 이상일 경우만 받도록)
         for (int index = 0; index < inputNumberArr.length; index++) {
             while (true) {
-                System.out.printf("%d 번째 숫자를 입력하세요 (0 포함 양의 정수) : ", index+1);
+                System.out.printf("%d 번째 숫자를 입력하세요 (0 포함 양의 정수) : ", index + 1);
                 int inputNumber = sc.nextInt();
                 sc.nextLine();
 
-                if (inputNumber < 0) {
-                    System.out.println("(0 포함 양의 정수)를 입력해주세요!");
-                    continue;
-                } else {
+                if (inputNumber >= 0) {
                     inputNumberArr[index] = inputNumber;
+                } else {
+                    System.out.println("0 포함 양의 정수를 입력해주세요!");
+                    continue;
                 }
 
                 break;
@@ -41,10 +41,31 @@ public class Calculator {
         return inputNumberArr;
     }
 
+    // 사칙연산 기호(+,-,*,/) 입력받기
+    // 사칙연산 기호 입력 외에 입력시 다시 입력 받도록 조치
+    private static char inputOperator(Scanner sc) {
+        while (true) {
+            System.out.print("계산할 사칙연산 기호를 입력해주세요 : ");
+            char inputOperator = sc.nextLine().charAt(0);
+
+            if (inputOperator == '+'
+                    || inputOperator == '-'
+                    || inputOperator == '*'
+                    || inputOperator == '/' ) {
+                return inputOperator;
+            } else {
+                System.out.println("+,-,*,/ 만 입력해주세요!");
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int[] resultNumberArr = inputNumbersWithCheckNegative(sc);
         System.out.println("resultNumberArr1: " + resultNumberArr[0]);
         System.out.println("resultNumberArr2: " + resultNumberArr[1]);
+
+        char resultOperator = inputOperator(sc);
+        System.out.println("resultOperator: " + resultOperator);
     }
 }
