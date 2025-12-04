@@ -2,7 +2,7 @@ package com.nbcamp.calculatorV2.step1;
 
 import java.util.Scanner;
 
-public class Calculator {
+public class App {
     // 계산할 숫자를 받아오기
     // 계산 받을 숫자의 갯수 지정, 0 포함한 양의 정수인지 입력 검사 수행, 잘못되면 단계별 다시 입력 받도록 조치
     private static double[] inputNumbersWithCheckNegative(Scanner sc) {
@@ -80,7 +80,7 @@ public class Calculator {
                         }
 
                         if (inputNumber > 0) {
-                            System.out.printf("결과 : %.1f\n", numberArr[0] / inputNumber);
+                            System.out.printf("결과 : %.2f\n", numberArr[0] / inputNumber);
                             break;
                         } else {
                             System.out.println("0 초과 양의 정수를 입력해주세요!");
