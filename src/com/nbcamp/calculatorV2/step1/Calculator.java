@@ -13,6 +13,7 @@ import java.util.Scanner;
  *   4-2. 연산 오류가 발생할 경우 해당 오류에 대한 내용을 정제 ex) 0으로 나누기 등
  *  5. 반복문을 사용하되, 반복의 종료를 알려주는 "exit" 입력 전 까진 무한 계산 가능 하도록
  */
+
 public class Calculator {
     // 계산할 숫자를 받아오기
     // 계산 받을 숫자의 갯수 지정, 0 포함한 양의 정수인지 입력 검사 수행, 잘못되면 단계별 다시 입력 받도록 조치
@@ -51,13 +52,45 @@ public class Calculator {
             if (inputOperator == '+'
                     || inputOperator == '-'
                     || inputOperator == '*'
-                    || inputOperator == '/' ) {
+                    || inputOperator == '/') {
                 return inputOperator;
             } else {
                 System.out.println("+,-,*,/ 만 입력해주세요!");
             }
         }
     }
+
+    // 입력 받은 양의 정수 2개와 사칙연산 기호를 사용하여 연산 진행하기
+    // 0으로 나눠 질 경우 불가능하다는 결과 출력 후
+    // 두번째 인수를 다시 받아 정상적으로 결과를 출력하도록 수정
+    private static void processingCal(int[] numberArr, char operator, Scanner sc) {
+        switch (operator) {
+            case '+' -> System.out.printf("결과 : %d\n", numberArr[0] + numberArr[1]);
+            case '-' -> System.out.printf("결과 : %d\n", numberArr[0] - numberArr[1]);
+            case '*' -> System.out.printf("결과 : %d\n", numberArr[0] * numberArr[1]);
+            case '/' -> {
+                if (numberArr[1] == 0) {
+                    System.out.println("0 으로 나누는 건 불가능해요!");
+
+                    while (true) {
+                        System.out.printf("%d 번째로 입력한 숫자를 바꿔주세요 (0 초과 양의 정수) : ", numberArr.length);
+
+                        int inputNumber = sc.nextInt();
+                        if (inputNumber > 0) {
+                            System.out.printf("결과 : %d\n", numberArr[0] / inputNumber);
+                            sc.nextLine();
+                            break;
+                        } else {
+                            System.out.println("0 초과 양의 정수를 입력해주세요!");
+                        }
+                    }
+                } else {
+                    System.out.printf("결과 : %d\n", numberArr[0] / numberArr[1]);
+                }
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -67,5 +100,7 @@ public class Calculator {
 
         char resultOperator = inputOperator(sc);
         System.out.println("resultOperator: " + resultOperator);
+
+        processingCal(resultNumberArr, resultOperator, sc);
     }
 }
