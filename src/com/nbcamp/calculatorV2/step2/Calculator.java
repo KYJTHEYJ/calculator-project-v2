@@ -15,11 +15,20 @@ import java.util.Scanner;
 public class Calculator {
     // 연산의 결과값을 저장하는 ArrayList
     // 연산의 결과값으로는 수식과 결과값 전체를 저장함
-    ArrayList<String> resultArrList = new ArrayList<>();
+    private ArrayList<String> resultArrList = new ArrayList<>();
+
+    // Getter, Setter 생성
+    public ArrayList<String> getResultArrList() {
+        return resultArrList;
+    }
+
+    public void setResultArrList(ArrayList<String> resultArrList) {
+        this.resultArrList = resultArrList;
+    }
 
     // 계산할 숫자를 받아오기
     // 계산 받을 숫자의 갯수 지정, 0 포함한 양의 정수인지 입력 검사 수행, 잘못되면 단계별 다시 입력 받도록 조치
-    public double[] inputNumbersWithCheckNegative(Scanner sc) {
+    protected double[] inputNumbersWithCheckNegative(Scanner sc) {
         // 계산 받을 숫자의 갯수 지정, 배열의 크기로 제어
         double[] inputNumberArr = new double[2];
 
@@ -56,7 +65,7 @@ public class Calculator {
 
     // 사칙연산 기호(+,-,*,/) 입력받기
     // 사칙연산 기호 입력 외에 입력시 다시 입력 받도록 조치
-    public char inputOperator(Scanner sc) {
+    protected char inputOperator(Scanner sc) {
         while (true) {
             System.out.print("계산할 사칙연산 기호를 입력해주세요 : ");
             char inputOperator = sc.nextLine().charAt(0);
@@ -76,7 +85,7 @@ public class Calculator {
     // 0으로 나눠 질 경우 불가능하다는 결과 출력 후
     // 두번째 인수를 다시 받아 정상적으로 결과를 출력하도록 수정
     // 계산 결과를 저장하도록 추가
-    public void processingCal(double[] numberArr, char operator, Scanner sc) {
+    protected void processingCal(double[] numberArr, char operator, Scanner sc) {
         String resultStr = "";
 
         switch (operator) {
@@ -128,7 +137,7 @@ public class Calculator {
     }
 
     // 결과 이후 "exit" 입력시 프로그램 종료, 아무 키워드 입력시엔 계속
-    public boolean exitCalculator(Scanner sc) {
+    protected boolean exitCalculator(Scanner sc) {
         String command;
         System.out.print("계속 계산하시겠어요? ( 아무 키워드 입력시 계속 / exit 입력시 종료 ) : ");
         command = sc.nextLine();
