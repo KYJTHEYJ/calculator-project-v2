@@ -13,12 +13,33 @@ public class App {
             char resultOperator = calc.inputOperator(sc);
             calc.processingCal(resultNumberArr, resultOperator, sc);
 
-            // Calculator 클래스 내부에서 계산 과정도 저장하는 것으로 구현을 해놓았지만..
-            // App 클래스 내부에서 처리하여 수식 결과를 저장한다면
-            // calc.getResultArrList().add("수식 결과들"); 또는 이 App 내부에 ArrayList 생성 후 setter 활용
+            // 그 동안 계산 결과를 보거나 삭제, 종료 가능
+            // App main 메서드에서 활용 요건으로 main 에서 구현하였음
+            boolean resultMenuRun = true;
+            while (resultMenuRun) {
+                switch (calc.exitOrCalResult(sc)) {
+                    case "history" -> {
+                        if (!calc.getResultArrList().isEmpty()) {
+                            System.out.println("==그 동안 계산한 수식들==");
 
-            if (calc.exitCalculator(sc)) {
-                break;
+                            int index = 0;
+                            for (String result : calc.getResultArrList()) {
+                                if (index == 0) System.out.print(result);
+                                else if (calc.getResultArrList().size() == 1)
+                                    System.out.println(result);
+                                else System.out.println(result);
+                                index++;
+                            }
+                        } else {
+                            System.out.println("계산한 결과가 없어요!");
+                        }
+                    }
+                    case "delete" -> calc.deleteCalcResults();
+                    case "exit" -> {
+                        return;
+                    }
+                    default -> resultMenuRun = false;
+                }
             }
         }
     }

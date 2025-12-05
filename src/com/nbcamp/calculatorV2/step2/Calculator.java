@@ -3,15 +3,6 @@ package com.nbcamp.calculatorV2.step2;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*
- * TODO List
- *  step2 require
- *  1. 사칙연산을 수행 후, 결과값 반환 메서드 구현 & 연산 결과를 저장하는 컬렉션 타입 필드를 가진 Calculator 클래스를 생성
- *  2. STEP 1에서 구현한 App 클래스의 main 메서드에 Calculator 클래스가 활용될 수 있도록 수정
- *  3. App 클래스의 main 메서드에서 Calculator 클래스의 연산 결과를 저장하고 있는 컬렉션 필드에 직접 접근하지 못하도록 수정 (캡슐화)
- *  4. Calculator 클래스에 저장된 연산 결과들 중 가장 먼저 저장된 데이터를 삭제하는 기능을 가진 메서드를 구현한 후 App 클래스의 main 메서드에 삭제 메서드가 활용될 수 있도록 수정
- */
-
 public class Calculator {
     // 연산의 결과값을 저장하는 ArrayList
     // 연산의 결과값으로는 수식과 결과값 전체를 저장함
@@ -136,11 +127,25 @@ public class Calculator {
         resultArrList.add(String.format("%d. %s\n", resultArrList.size() + 1, resultStr));
     }
 
-    // 결과 이후 "exit" 입력시 프로그램 종료, 아무 키워드 입력시엔 계속
-    protected boolean exitCalculator(Scanner sc) {
+    // 결과 수식 저장 초기화
+    protected void deleteCalcResults() {
+        resultArrList.clear();
+    }
+
+    // 결과 이후 "exit" 입력시 프로그램 종료
+    // , "history 입력시 계산 결과 목록 출력
+    // , "delete" 입력시 계산 결과 목록 삭제 되도록 키워드 반환 (App main에서 활용)
+    protected String exitOrCalResult(Scanner sc) {
         String command;
-        System.out.print("계속 계산하시겠어요? ( 아무 키워드 입력시 계속 / exit 입력시 종료 ) : ");
+
+        System.out.print("계속 계산하시겠어요?\n" +
+                         "( history 입력시 그 동안 계산 결과 출력\n" +
+                         "  / delete 입력시 그 동안 계산 결과 삭제\n" +
+                         "  / exit 입력시 종료\n" +
+                         "  / 상기한 키워드 외 아무 키워드 입력시 계속 계산\n" +
+                         ") : ");
         command = sc.nextLine();
-        return command.equals("exit");
+
+        return command;
     }
 }
