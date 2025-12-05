@@ -17,9 +17,10 @@ public class App {
                 System.out.printf("%d 번째 숫자를 입력하세요 (0 포함 양의 정수) : ", index + 1);
 
                 try {
-                    inputNumber = Integer.parseInt(sc.nextLine());
+                    inputNumber = sc.nextInt();
                 } catch (Exception e) {
                     System.out.println("잘못된 입력을 하셨어요!");
+                    sc.nextLine();
                     continue;
                 }
 
@@ -27,9 +28,11 @@ public class App {
                     inputNumberArr[index] = inputNumber;
                 } else {
                     System.out.println("0 포함 양의 정수를 입력해주세요!");
+                    sc.nextLine();
                     continue;
                 }
 
+                sc.nextLine();
                 break;
             }
         }
@@ -60,15 +63,15 @@ public class App {
     // 두번째 인수를 다시 받아 정상적으로 결과를 출력하도록 수정
     private static void processingCal(double[] numberArr, char operator, Scanner sc) {
         switch (operator) {
-            case '+' -> System.out.printf("결과 : %.0f\n", numberArr[0] + numberArr[1]);
-            case '-' -> System.out.printf("결과 : %.0f\n", numberArr[0] - numberArr[1]);
-            case '*' -> System.out.printf("결과 : %.0f\n", numberArr[0] * numberArr[1]);
+            case '+' -> System.out.printf("%.0f + %.0f = %.0f\n", numberArr[0], numberArr[1], numberArr[0] + numberArr[1]);
+            case '-' -> System.out.printf("%.0f - %.0f = %.0f\n", numberArr[0], numberArr[1], numberArr[0] - numberArr[1]);
+            case '*' -> System.out.printf("%.0f * %.0f = %.0f\n", numberArr[0], numberArr[1], numberArr[0] * numberArr[1]);
             case '/' -> {
                 if (numberArr[1] == 0) {
                     System.out.println("0 으로 나누는 건 불가능해요!");
 
                     while (true) {
-                        int inputNumber;
+                        double inputNumber;
 
                         System.out.printf("%d 번째로 입력한 숫자를 바꿔주세요 (0 초과 양의 정수) : ", numberArr.length);
 
@@ -80,14 +83,14 @@ public class App {
                         }
 
                         if (inputNumber > 0) {
-                            System.out.printf("결과 : %.2f\n", numberArr[0] / inputNumber);
+                            System.out.printf("%.0f / %.0f = %.2f\n", numberArr[0], inputNumber, numberArr[0] / inputNumber);
                             break;
                         } else {
                             System.out.println("0 초과 양의 정수를 입력해주세요!");
                         }
                     }
                 } else {
-                    System.out.printf("결과 : %.2f\n", numberArr[0] / numberArr[1]);
+                    System.out.printf("%.0f / %.0f = %.2f\n", numberArr[0], numberArr[1], numberArr[0] / numberArr[1]);
                 }
             }
         }
