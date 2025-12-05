@@ -27,7 +27,7 @@ public class App {
                                 if (index == 0) System.out.print(result);
                                 else if (calc.getResultArrList().size() == 1)
                                     System.out.println(result);
-                                else System.out.println(result);
+                                else System.out.print(result);
                                 index++;
                             }
                         } else {

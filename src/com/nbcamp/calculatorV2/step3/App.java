@@ -1,6 +1,8 @@
 package com.nbcamp.calculatorV2.step3;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class App {
 
@@ -39,7 +41,7 @@ public class App {
 
             // 나누기일 경우 0으로 나뉠 수 없기에 두번째 요소 재처리 요청
             if (operator == '/') {
-                if(inputNumberArr[1].doubleValue() == 0) {
+                if (inputNumberArr[1].doubleValue() == 0) {
                     System.out.println("0 으로 나누는 건 불가능해요!");
                     Number newNumber;
 
@@ -78,7 +80,7 @@ public class App {
                                 if (index == 0) System.out.print(result);
                                 else if (calc.getResultArrList().size() == 1)
                                     System.out.println(result);
-                                else System.out.println(result);
+                                else System.out.print(result);
                                 index++;
                             }
                         } else {
@@ -86,9 +88,101 @@ public class App {
                         }
                     }
                     case "delete" -> calc.deleteCalcResults();
+                    // 일반 스트림 활용
+                    case "find" -> {
+                        if (!calc.getResultArrList().isEmpty()) {
+                            while (true) {
+                                double findValue;
+
+                                System.out.println("==입력한 값 보다 더 큰 수식 결과 조회==");
+                                System.out.print("값 입력 : ");
+
+                                try {
+                                    findValue = sc.nextDouble();
+                                } catch (Exception e) {
+                                    System.out.println("잘못된 입력을 하셨어요!");
+                                    sc.nextLine();
+                                    continue;
+                                }
+
+                                List<String> expressionList = calc.findMoreBiggerCase(findValue);
+                                expressionList.forEach(expression -> System.out.print(expression));
+
+                                sc.nextLine();
+                                break;
+                            }
+                        } else {
+                            System.out.println("계산한 결과가 없어요!");
+                        }
+                    }
+                    case "find2" -> {
+                        if (!calc.getResultArrList().isEmpty()) {
+                            while (true) {
+                                double findValue;
+
+                                System.out.println("==입력한 값 보다 더 작은 수식 결과 조회==");
+                                System.out.print("값 입력 : ");
+
+                                try {
+                                    findValue = sc.nextDouble();
+                                } catch (Exception e) {
+                                    System.out.println("잘못된 입력을 하셨어요!");
+                                    sc.nextLine();
+                                    continue;
+                                }
+
+                                List<String> expressionList = calc.findMoreSmallerCase(findValue);
+                                expressionList.forEach(expression -> System.out.print(expression));
+
+                                sc.nextLine();
+                                break;
+                            }
+                        } else {
+                            System.out.println("계산한 결과가 없어요!");
+                        }
+                    }
+                    case "find3" -> {
+                        if (!calc.getResultArrList().isEmpty()) {
+                            while (true) {
+                                double findValue;
+                                String boolState;
+                                try {
+                                    System.out.println("==조건과 값을 입력==");
+                                    System.out.print("조건 입력 (>, <, ==, >=, <=) : ");
+                                    boolState = sc.nextLine();
+
+                                    if (!boolState.equals(">")
+                                        && !boolState.equals("<")
+                                        && !boolState.equals("==")
+                                        && !boolState.equals(">=")
+                                        && !boolState.equals("<=")) {
+                                        // 잘못 입력 처리 되었을 때 재 루프용 exception 선언
+                                        throw new Exception("잘못된 부등호 입력됨");
+                                    }
+
+                                    System.out.print("값 입력 : ");
+
+                                    findValue = sc.nextDouble();
+                                } catch (Exception e) {
+                                    System.out.println("잘못된 입력을 하셨어요!");
+                                    sc.nextLine();
+                                    continue;
+                                }
+
+                                List<String> expressionList = calc.findYourCase(boolState, findValue);
+                                expressionList.forEach(expression -> System.out.print(expression));
+
+                                sc.nextLine();
+                                break;
+                            }
+                        } else {
+                            System.out.println("계산한 결과가 없어요!");
+                        }
+                    }
                     case "exit" -> {
                         return;
                     }
+
                     default -> resultMenuRun = false;
                 }
             }
