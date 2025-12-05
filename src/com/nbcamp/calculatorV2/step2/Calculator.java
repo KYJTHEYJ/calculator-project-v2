@@ -109,7 +109,7 @@ public class Calculator {
                         }
 
                         if (inputNumber > 0) {
-                            resultStr = String.format("%.0f / %.0f = %.0f\n", numberArr[0], inputNumber, numberArr[0] / inputNumber);
+                            resultStr = String.format("%.0f / %.0f = %.2f\n", numberArr[0], inputNumber, numberArr[0] / inputNumber);
                             System.out.printf(resultStr);
                             break;
                         } else {
@@ -117,7 +117,7 @@ public class Calculator {
                         }
                     }
                 } else {
-                    resultStr = String.format("%.0f / %.0f = %.0f\n", numberArr[0], numberArr[1], numberArr[0] / numberArr[1]);
+                    resultStr = String.format("%.0f / %.0f = %.2f\n", numberArr[0], numberArr[1], numberArr[0] / numberArr[1]);
                     System.out.printf(resultStr);
                 }
             }

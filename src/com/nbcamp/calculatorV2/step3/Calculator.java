@@ -1,5 +1,7 @@
 package com.nbcamp.calculatorV2.step3;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,55 +12,13 @@ import java.util.Scanner;
  *  3. 저장된 연산 결과를 Scanner로 입력받은 값보다 큰 결과를 출력 (스트림, 람다 사용할 것)
  */
 
-public class Calculator {
-    // 연산의 결과값을 저장하는 ArrayList
+// Number 상한선 지정 -> 실수 처리를 위해서
+class Calculator<T extends Number> {
     // 연산의 결과값으로는 수식과 결과값 전체를 저장함
     private ArrayList<String> resultArrList = new ArrayList<>();
 
-    // Getter, Setter 생성
     public ArrayList<String> getResultArrList() {
         return resultArrList;
-    }
-
-    public void setResultArrList(ArrayList<String> resultArrList) {
-        this.resultArrList = resultArrList;
-    }
-
-    // 계산할 숫자를 받아오기
-    // 계산 받을 숫자의 갯수 지정, 0 포함한 양의 정수인지 입력 검사 수행, 잘못되면 단계별 다시 입력 받도록 조치
-    protected double[] inputNumbersWithCheckNegative(Scanner sc) {
-        // 계산 받을 숫자의 갯수 지정, 배열의 크기로 제어
-        double[] inputNumberArr = new double[2];
-
-        // 숫자 입력 받기 (0 이상일 경우만 받도록)
-        for (int index = 0; index < inputNumberArr.length; index++) {
-            while (true) {
-                int inputNumber;
-
-                System.out.printf("%d 번째 숫자를 입력하세요 (0 포함 양의 정수) : ", index + 1);
-
-                try {
-                    inputNumber = sc.nextInt();
-                } catch (Exception e) {
-                    System.out.println("잘못된 입력을 하셨어요!");
-                    sc.nextLine();
-                    continue;
-                }
-
-                if (inputNumber >= 0) {
-                    inputNumberArr[index] = inputNumber;
-                } else {
-                    System.out.println("0 포함 양의 정수를 입력해주세요!");
-                    sc.nextLine();
-                    continue;
-                }
-
-                sc.nextLine();
-                break;
-            }
-        }
-
-        return inputNumberArr;
     }
 
     // 사칙연산 기호(+,-,*,/) 입력받기
@@ -86,59 +46,62 @@ public class Calculator {
         }
     }
 
-    // 입력 받은 양의 정수 2개와 사칙연산 기호를 사용하여 연산 진행하기
-    // 0으로 나눠 질 경우 불가능하다는 결과 출력 후
-    // 두번째 인수를 다시 받아 정상적으로 결과를 출력하도록 수정
-    // 계산 결과를 저장하도록 추가
-    protected void processingCal(double[] numberArr, char operator, Scanner sc) {
-        String resultStr = "";
-
-        switch (operator) {
-            case '+' -> {
-                resultStr = String.format("%.0f + %.0f = %.0f\n", numberArr[0], numberArr[1], numberArr[0] + numberArr[1]);
-                System.out.printf(resultStr);
+    // 동적 포맷팅을 위해 메서드 생성
+    private String formattingNumber(Number number) {
+        // 포맷팅하여 출력하도록 조치
+        // . 이 있다면 우선 소수점으로 생각 -> double 로 형 변환
+        // . 이 없다면 -> 정수로 생각
+        if(number.toString().contains(".")) {
+            // 10.0 같은 입력값은 사실상 정수로 보는게 맞음
+            if(number.doubleValue() == (long) number.doubleValue()) {
+                return String.valueOf(number.longValue());
+            } else {
+                return String.valueOf(number.doubleValue());
             }
-            case '-' -> {
-                resultStr = String.format("%.0f - %.0f = %.0f\n", numberArr[0], numberArr[1], numberArr[0] - numberArr[1]);
-                System.out.printf(resultStr);
-            }
-            case '*' -> {
-                resultStr = String.format("%.0f * %.0f = %.0f\n", numberArr[0], numberArr[1], numberArr[0] * numberArr[1]);
-                System.out.printf(resultStr);
-            }
-            case '/' -> {
-                if (numberArr[1] == 0) {
-                    System.out.println("0 으로 나누는 건 불가능해요!");
+        } else {
+            return String.valueOf(number.longValue());
+        }
+    }
 
-                    while (true) {
-                        double inputNumber;
+    // 계산부분 분리
+    private Number calculatingNumbers(T[] numberArr, char operator) {
+        // 자릿수를 두고 싶지 않은데 소수점 계산이 너무 흐트러져
+        // 부동 소수점 정확성 보정 계산으로 계산 방식 변경
+        BigDecimal number1 = new BigDecimal(numberArr[0].toString());
+        BigDecimal number2 = new BigDecimal(numberArr[1].toString());
+        Number result = null;
 
-                        System.out.printf("%d 번째로 입력한 숫자를 바꿔주세요 (0 초과 양의 정수) : ", numberArr.length);
+        if (operator == '+') {
+            result = number1.add(number2);
+        } else if (operator == '-') {
+            result = number1.subtract(number2);
+        } else if (operator == '*') {
+            result = number1.multiply(number2);
+        } else if (operator == '/') {
+            result = number1.divide(number2, RoundingMode.HALF_UP);
+        }
 
-                        try {
-                            inputNumber = Integer.parseInt(sc.nextLine());
-                        } catch (Exception e) {
-                            System.out.println("잘못된 입력을 하셨어요!");
-                            continue;
-                        }
+        return result;
+    }
 
-                        if (inputNumber > 0) {
-                            resultStr = String.format("%.0f / %.0f = %.0f\n", numberArr[0], inputNumber, numberArr[0] / inputNumber);
-                            System.out.printf(resultStr);
-                            break;
-                        } else {
-                            System.out.println("0 초과 양의 정수를 입력해주세요!");
-                        }
-                    }
-                } else {
-                    resultStr = String.format("%.0f / %.0f = %.0f\n", numberArr[0], numberArr[1], numberArr[0] / numberArr[1]);
-                    System.out.printf(resultStr);
-                }
+    // 입력 받은 수와 사칙연산 기호를 사용하여 연산 진행 후 결과를 받아 저장 하고 출력하는 부분
+    protected void processingCal(T[] numberArr, char operator) {
+        StringBuilder formattedExpression = new StringBuilder();
+
+        for (int index = 0, numberArrLength = numberArr.length; index < numberArrLength; index++) {
+            T number = numberArr[index];
+
+            if (index == 0) {
+                formattedExpression.append(formattingNumber(number));
+                formattedExpression.append(" ").append(operator).append(" ");
+            } else {
+                formattedExpression.append(formattingNumber(number));
+                formattedExpression.append(" = ").append(formattingNumber(calculatingNumbers(numberArr, operator)));
             }
         }
 
-        // 최종 수식을 저장하여 보관
-        resultArrList.add(String.format("%d. %s\n", resultArrList.size() + 1, resultStr));
+        resultArrList.add(String.format("%d. %s", resultArrList.size()+1, formattedExpression + "\n"));
+        System.out.println(formattedExpression);
     }
 
     // 결과 수식 저장 초기화

@@ -1,6 +1,7 @@
 package com.nbcamp.calculatorV2.step3;
 
-public enum OperatorType {
+// 올바른 사칙연산 기호 입력을 위한 Enum
+enum OperatorType {
     PLUS('+')
     , MINUS('-')
     , MULTIPLY('*')
