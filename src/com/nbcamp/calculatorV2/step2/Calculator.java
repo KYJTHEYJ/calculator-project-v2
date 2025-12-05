@@ -127,9 +127,14 @@ public class Calculator {
         resultArrList.add(String.format("%d. %s\n", resultArrList.size() + 1, resultStr));
     }
 
-    // 결과 수식 저장 초기화
-    protected void deleteCalcResults() {
-        resultArrList.clear();
+    // 가장 먼저 저장된 기록 삭제
+    protected void deleteFirstCalcResult() {
+        if (!resultArrList.isEmpty()) {
+            System.out.println("아래 가장 최근 계산을 히스토리에서 지웠습니다!");
+            System.out.println(resultArrList.remove(resultArrList.size() - 1));
+        } else {
+            System.out.println("계산한 결과가 없어요!");
+        }
     }
 
     // 결과 이후 "exit" 입력시 프로그램 종료
@@ -140,7 +145,7 @@ public class Calculator {
 
         System.out.print("계속 계산하시겠어요?\n" +
                          "( history 입력시 그 동안 계산 결과 출력\n" +
-                         "  / delete 입력시 그 동안 계산 결과 삭제\n" +
+                         "  / delete 입력시 가장 최근 계산 결과 삭제\n" +
                          "  / exit 입력시 종료\n" +
                          "  / 상기한 키워드 외 아무 키워드 입력시 계속 계산\n" +
                          ") : ");

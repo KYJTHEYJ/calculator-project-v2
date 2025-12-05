@@ -22,19 +22,18 @@ public class App {
                         if (!calc.getResultArrList().isEmpty()) {
                             System.out.println("==그 동안 계산한 수식들==");
 
-                            int index = 0;
                             for (String result : calc.getResultArrList()) {
-                                if (index == 0) System.out.print(result);
-                                else if (calc.getResultArrList().size() == 1)
+                                if (calc.getResultArrList().size() == 1) {
                                     System.out.println(result);
-                                else System.out.print(result);
-                                index++;
+                                } else {
+                                    System.out.print(result);
+                                }
                             }
                         } else {
                             System.out.println("계산한 결과가 없어요!");
                         }
                     }
-                    case "delete" -> calc.deleteCalcResults();
+                    case "delete" -> calc.deleteFirstCalcResult();
                     case "exit" -> {
                         return;
                     }

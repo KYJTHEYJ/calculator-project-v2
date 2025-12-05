@@ -8,13 +8,6 @@ import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/*
- * TODO List
- *  1. Enum 타입을 활용하여 연산자 타입에 대한 정보를 관리하고 이를 사칙연산 계산기 Calculator 클래스에 활용
- *  2. 제네릭 활용
- *  3. 저장된 연산 결과를 Scanner로 입력받은 값보다 큰 결과를 출력 (스트림, 람다 사용할 것)
- */
-
 // Number 상한선 지정 -> 실수 처리를 위해서
 class Calculator<T extends Number> {
     // 연산의 결과값으로는 수식과 결과값 전체를 저장함
@@ -108,8 +101,13 @@ class Calculator<T extends Number> {
     }
 
     // 결과 수식 저장 초기화
-    protected void deleteCalcResults() {
-        resultArrList.clear();
+    protected void deleteFirstCalcResult() {
+        if (!resultArrList.isEmpty()) {
+            System.out.println("아래 가장 최근 계산을 히스토리에서 지웠습니다!");
+            System.out.println(resultArrList.remove(resultArrList.size() - 1));
+        } else {
+            System.out.println("계산한 결과가 없어요!");
+        }
     }
 
     // 결과 수식의 결과값 중 입력값보다 큰 결과 수식들을 보여줌
@@ -178,7 +176,7 @@ class Calculator<T extends Number> {
 
         System.out.print("계속 계산하시겠어요?\n" +
                          "( history 입력시 그 동안 계산 결과 출력\n" +
-                         "  / delete 입력시 그 동안 계산 결과 삭제\n" +
+                         "  / delete 입력시 가장 최근 계산 결과 삭제\n" +
                          "  / find 입력시 값을 입력받아 그 값보다 큰 결과들을 출력\n" +
                          "  / find2 입력시 값을 입력받아 그 값보다 작은 결과들을 출력\n" +
                          "  / find3 입력시 부등호와 값을 입력 받아 결과들을 출력\n" +

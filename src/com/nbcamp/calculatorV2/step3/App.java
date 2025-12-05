@@ -77,17 +77,23 @@ public class App {
 
                             int index = 0;
                             for (String result : calc.getResultArrList()) {
-                                if (index == 0) System.out.print(result);
-                                else if (calc.getResultArrList().size() == 1)
+                                if (calc.getResultArrList().size() == 1) {
                                     System.out.println(result);
-                                else System.out.print(result);
+                                } else {
+                                    if(index != calc.getResultArrList().size() - 1) {
+                                        System.out.print(result);
+                                    } else {
+                                        System.out.println(result);
+                                    }
+                                }
+
                                 index++;
                             }
                         } else {
                             System.out.println("계산한 결과가 없어요!");
                         }
                     }
-                    case "delete" -> calc.deleteCalcResults();
+                    case "delete" -> calc.deleteFirstCalcResult();
                     // 일반 스트림 활용
                     case "find" -> {
                         if (!calc.getResultArrList().isEmpty()) {
@@ -106,8 +112,13 @@ public class App {
                                 }
 
                                 List<String> expressionList = calc.findMoreBiggerCase(findValue);
-                                expressionList.forEach(expression -> System.out.print(expression));
 
+                                if(expressionList.isEmpty()) {
+                                    System.out.println("해당하는 결과가 없어요!");
+                                }
+
+                                expressionList.forEach(expression -> System.out.print(expression));
+                                System.out.println();
                                 sc.nextLine();
                                 break;
                             }
@@ -132,8 +143,13 @@ public class App {
                                 }
 
                                 List<String> expressionList = calc.findMoreSmallerCase(findValue);
-                                expressionList.forEach(expression -> System.out.print(expression));
 
+                                if(expressionList.isEmpty()) {
+                                    System.out.println("해당하는 결과가 없어요!");
+                                }
+
+                                expressionList.forEach(expression -> System.out.print(expression));
+                                System.out.println();
                                 sc.nextLine();
                                 break;
                             }
@@ -149,7 +165,7 @@ public class App {
                                 try {
                                     System.out.println("==조건과 값을 입력==");
                                     System.out.print("조건 입력 (>, <, ==, >=, <=) : ");
-                                    boolState = sc.nextLine();
+                                    boolState = sc.next();
 
                                     if (!boolState.equals(">")
                                         && !boolState.equals("<")
@@ -170,8 +186,13 @@ public class App {
                                 }
 
                                 List<String> expressionList = calc.findYourCase(boolState, findValue);
-                                expressionList.forEach(expression -> System.out.print(expression));
 
+                                if(expressionList.isEmpty()) {
+                                    System.out.println("해당하는 결과가 없어요!");
+                                }
+
+                                expressionList.forEach(expression -> System.out.print(expression));
+                                System.out.println();
                                 sc.nextLine();
                                 break;
                             }
