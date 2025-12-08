@@ -2,7 +2,6 @@ package com.nbcamp.calculatorV2.step3;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class App {
 
